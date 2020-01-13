@@ -4,11 +4,53 @@
 
 {% block stylesheets %}
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            height: 100%;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 15px;
+        }
+
+        .left{
+            width: 50%;
+            height: 100%;
+            float: left;
+            background-color: #1b1e21;
+        }
+        .right{
+            width: 50%;
+            height: 100%;
+            float: left;
+            background-color: #c4312e;
+        }
+        .fill{
+            height: 100%;
+            width: 100%;
+        }
+
     </style>
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    {{ Form }}
-</div>
+{#        form met attributen   #}
+    <div class="left">
+        <div class="fill">
+            <h1>Welkom op de test form</h1>
+        </div>
+    </div>
+    <div class="right">
+        <div class="fill">
+            {{ form_start(Form, {'attr': {'id': 'custom_post_form', 'class': 'form'}}) }}
+            {{ form(Form) }}
+            {{ form_end(Form) }}
+        </div>
+    </div>
+
+
 {% endblock %}
