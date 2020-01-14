@@ -4,53 +4,137 @@
 
 {% block stylesheets %}
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
-        }
-        body{
-            height: 100%;
-            width: 100%;
         }
 
         th, td {
             padding: 15px;
         }
 
-        .left{
-            width: 50%;
-            height: 100%;
-            float: left;
-            background-color: #1b1e21;
-        }
-        .right{
-            width: 50%;
-            height: 100%;
-            float: left;
-            background-color: #c4312e;
-        }
-        .fill{
-            height: 100%;
-            width: 100%;
+        h1{
+            color: #DDDDDD;
+            text-align: center;
+            font-size: 2rem;
         }
 
+        .grid {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            display: grid;
+            grid-template-columns: auto auto;
+
+        }
+
+        .left {
+            background-color: #7d0c0f;
+
+        }
+
+        .right {
+
+            background-color: #1b1e21;
+        }
+
+        .center {
+            width: 85%;
+            vertical-align: center;
+            margin-top: 30%;
+            margin-left: 9%;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button[type=submit] {
+            width: 30%;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .inputfield{
+            font-family: inherit;
+            font-size: 17px;
+        }
+        .form{
+            background-color: #DDDDDD;
+            border-radius: 5px;
+            padding: 17px;
+        }
+        .form-error{
+            color: red;
+        }
+        .response{
+            color: #45a049;
+            background-color:
+                    #ddd;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            border: solid
+            #c1b2b2;
+            text-align: center;
+            font-size: 23px;
+            font-weight: bold;
+        }
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
-{#        form met attributen   #}
-    <div class="left">
-        <div class="fill">
-            <h1>Welkom op de test form</h1>
+    {#        form met attributen   #}
+    <div class="grid">
+        <div class="left">
+            <div class="center">
+                <div>
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="logo">
+                </div>
+                <h1>Welkom op de test form in symfony.</h1>
+            </div>
+        </div>
+        <div class="right">
+            <div class="center">
+                {{ form_start(Form) }}
+                <div class="form">
+                    <div class="inputfield">
+                        {{ form_label(Form.naam) }}
+                        {{ form_widget(Form.naam) }}
+                    </div>
+                    <div class="inputfield">
+                        {{ form_label(Form.email) }}
+                        {{ form_widget(Form.email) }}
+                    </div>
+                    <div class="inputfield">
+                        {{ form_label(Form.telefoonnummer) }}
+                        {{ form_widget(Form.telefoonnummer) }}
+                    </div>
+                    <div class="inputfield">
+                        {{ form_widget(Form.verstuur) }}
+                    </div>
+                    <div class="form-error">
+                        {{ form_errors(Form) }}
+                    </div>
+                </div>
+                {{ form_end(Form) }}
+                {{ response }}
+            </div>
         </div>
     </div>
-    <div class="right">
-        <div class="fill">
-            {{ form_start(Form, {'attr': {'id': 'custom_post_form', 'class': 'form'}}) }}
-            {{ form(Form) }}
-            {{ form_end(Form) }}
-        </div>
-    </div>
-
-
 {% endblock %}

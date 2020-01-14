@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Entity\From;
+namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,17 +18,35 @@ class Form
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(length=255)
+     * @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "^[a-zA-Z]+$",
+     *     message="Naam is niet geldig"
+     * )
+     *
+     * @Assert\NotBlank
      */
     private $Naam;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Email(
+     *     message = "geen geldig email."
+     * )
      */
     private $Email;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 7,
+     *      max = 12,
+     *      minMessage="telefoonnummer klopt niet",
+     *      maxMessage="telefoonnummer klopt niet"
+     * )
      */
     private $Telefoonnummer;
 

@@ -3,13 +3,11 @@
 namespace App\Controller;
 
 //includes de form entity
-use App\Entity\From\Form;
+use App\Entity\Form;
+use App\Form\FormType;
 use Symfony\Component\HttpFoundation\Response;
-//types for the form
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,53 +23,26 @@ class HomeController extends AbstractController
      */
     public function index(Request $request)
     {
-        $form = $this->createFormBuilder()
-            ->add('naam', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Naam'
-
-                ]
-            ])
-            ->add('email', EmailType::class , [
-                'attr' => [
-                    'placeholder' => 'Email'
-                ]
-            ])
-            ->add('telefoonnummer', TelType::class , [
-                'attr' => [
-                    'placeholder' => 'Telefoonnummer'
-                ]
-            ])
-            ->add('verstuur', SubmitType::class , [
-                'attr' => [
-                    'class' => 'btn btn-success'
-                    ]
-            ])->getForm();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = new Form();
-
-        $form = $this->createForm(new FromType(), $entity);
+        $formpost = new Form();
+        $form = $this->createForm(FormType::class, $formpost);
 
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-
-
-            $entity = $form->getData();
-//            $entity->setNaam($form->get($form->getData('naam')));
-            print_r($entity);
-           $em->persist($entity);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formpost);
             $em->flush();
-
-            return new Response('Succesvol verstuurd');
+            $response = '<div class="response">succesvol verstuurt</div>';
+            return $this->render('home/index.html.twig', [
+                'controller_name' => 'HomeController',
+                'Form' => $form->createView(),
+                'response' => $response,
+            ]);
         }
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'Form' => $form->createView(),
+            'response' => null,
         ]);
     }
 }
