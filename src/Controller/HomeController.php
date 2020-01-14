@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 //includes de form entity
-use App\Entity\From;
+use App\Entity\From\Form;
 use Symfony\Component\HttpFoundation\Response;
-
 //types for the form
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -48,16 +47,25 @@ class HomeController extends AbstractController
                     'class' => 'btn btn-success'
                     ]
             ])->getForm();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = new Form();
+
+        $form = $this->createForm(new FromType(), $entity);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $em = $this->getDoctrine()->getManager();
 
-            $em->persist($form);
-//
-//            $em->flush();
-            dd($form);
+
+            $entity = $form->getData();
+//            $entity->setNaam($form->get($form->getData('naam')));
+            print_r($entity);
+           $em->persist($entity);
+            $em->flush();
+
             return new Response('Succesvol verstuurd');
         }
 
